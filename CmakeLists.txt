@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.22)
+
+project(OpenGL_gridLines LANGUAGES C CXX)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# GLFW
+add_subdirectory(thirdParty/glfw-3.5.1)
+add_subdirectory(thirdParty/glm)
+
+# GLAD 1
+add_library(glad STATIC
+    thirdParty/glad/src/glad.c
+)
+
+target_include_directories(glad PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/glad/include"
+)
+
+# Application
+file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+)
+
+add_executable(OpenGL_gridLines ${MY_SOURCES})
+
+target_include_directories(OpenGL_gridLines PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+
+target_include_directories(OpenGL_gridLines PRIVATE
+"${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/glad/include"
+)
+
+target_compile_definitions(OpenGL_gridLines PRIVATE
+    RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/"
+)
+
+target_link_libraries(OpenGL_gridLines PRIVATE
+    glfw
+    glad
+    glm
+)
