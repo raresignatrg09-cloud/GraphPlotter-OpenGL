@@ -1,9 +1,7 @@
-#define STB_IMAGE_IMPLEMENTATION
-
-#include "headers/stb_image.h"
 #include "headers/Shader.h"
 #include "headers/Grid.h"
 #include "headers/Window.h"
+#include "headers/Graph.h"
 
 constexpr int WIDTH = 800;
 constexpr int HEIGHT = 800;
@@ -27,6 +25,10 @@ int main()
 	window.setFramebufferSizeCallback(framebuffer_size_callback);
 
 	Grid grid;
+	Graph graph;
+	graph.setFunction([](float x) { return std::sin(x)*std::sin(x) + std::cos(x)*std::cos(x); });
+	graph.generate(-10.0f, 10.0f);
+
 	Shader shader(RESOURCES_PATH"shaders/grid.vert", RESOURCES_PATH"shaders/grid.frag");
 
 	while (!window.shouldClose())
@@ -42,6 +44,7 @@ int main()
 		shader.use();
 
 		grid.draw(shader);
+		graph.draw(shader);
 
 		window.swapBuffers();
 		window.pollEvents();
