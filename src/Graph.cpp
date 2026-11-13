@@ -1,7 +1,7 @@
 #include "headers/Graph.h"
 
 Graph::Graph()
-	: VAO(0), VBO(0), vertexCount(0), m_function(nullptr)
+	: VAO(0), VBO(0)
 {
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -18,37 +18,35 @@ Graph::Graph()
 	glBindVertexArray(0);
 }
 
-void Graph::generate(float startX, float endX, int segments)
+Graph::~Graph()
 {
-	if (!m_function || segments <= 0)
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
+}
+
+void Graph::setFunction(std::function<float(float)> func, float startX, float endX, int segments)
+{
+	if (!func || segments <= 0)
 		return;
-	
-	m_vertices.clear();
+
+	GraphData graph;
+
+	graph.function = func;
 
 	for (int i = 0; i <= segments; i++)
 	{
 		float t = static_cast<float>(i) / segments;
-
 		float x = startX + t * (endX - startX);
-		float y = m_function(x);
-
-		m_vertices.push_back({ x, y, 1.0f, 0.0f, 0.0f });
+		float y = func(x);
+		graph.vertices.push_back({ x, y, 1.0f, 0.0f, 0.0f });
 	}
 
-	vertexCount = static_cast<int>(m_vertices.size());
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vertex), m_vertices.data(), GL_STATIC_DRAW);
+	m_graphs.push_back(graph);
 }
 
-void Graph::setFunction(std::function<float(float)> func)
+void Graph::draw(Shader & shader) const
 {
-	m_function = func;
-}
-
-void Graph::draw(Shader & shader)
-{
-	if (vertexCount == 0)
+	if (m_graphs.empty())
 		return;
 
 	shader.use();
@@ -59,7 +57,15 @@ void Graph::draw(Shader & shader)
 
 	glBindVertexArray(VAO);
 
-	glDrawArrays(GL_LINE_STRIP, 0, vertexCount);
+	for (const auto& graph : m_graphs)
+	{
+		if (graph.vertices.empty())
+			continue;
 
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, graph.vertices.size() * sizeof(Vertex), graph.vertices.data(), GL_STATIC_DRAW);
+
+		glDrawArrays(GL_LINE_STRIP, 0, static_cast<int>(graph.vertices.size()));
+	}
 	glBindVertexArray(0);
 }

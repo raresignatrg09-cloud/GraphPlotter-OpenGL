@@ -3,6 +3,8 @@
 #include "headers/Window.h"
 #include "headers/Graph.h"
 
+#include <unordered_map>
+
 constexpr int WIDTH = 800;
 constexpr int HEIGHT = 800;
 const char* TITLE = "Grid Lines";
@@ -25,11 +27,13 @@ int main()
 	window.setFramebufferSizeCallback(framebuffer_size_callback);
 
 	Grid grid;
-	Graph graph;
-	graph.setFunction([](float x) { return std::sin(x)*std::sin(x) + std::cos(x)*std::cos(x); });
-	graph.generate(-10.0f, 10.0f);
 
-	Shader shader(RESOURCES_PATH"shaders/grid.vert", RESOURCES_PATH"shaders/grid.frag");
+	Graph graph;
+	graph.setFunction([](float x) { return std::sin(x); },-10.0f, 10.0f);
+	graph.setFunction([](float x) { return x*x; },-10.0f, 10.0f);
+	
+
+	Shader shader(RESOURCES_PATH"shaders/shader.vert", RESOURCES_PATH"shaders/shader.frag");
 
 	while (!window.shouldClose())
 	{

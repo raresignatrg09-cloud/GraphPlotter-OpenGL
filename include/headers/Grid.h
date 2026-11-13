@@ -24,6 +24,9 @@ public:
 	static std::vector<Vertex> generateGrid();
 	void draw(Shader& shader) const;
 
+	Grid(const Grid&) = delete;
+	Grid& operator=(const Grid&) = delete;
+
 private:
 	GLuint gridVBO, gridVAO;
 	int gridVertexCount;
