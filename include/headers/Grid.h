@@ -22,7 +22,7 @@ class Grid
 public:
 	Grid();
 	static std::vector<Vertex> generateGrid();
-	void draw(Shader& shader) const;
+	void draw(Shader& shader, int width, int height) const;
 
 	Grid(const Grid&) = delete;
 	Grid& operator=(const Grid&) = delete;

@@ -20,8 +20,8 @@ public:
 	Graph();
 	~Graph();
 
-	void setFunction(std::function<float(float)> func,float startX,float endX,int segments=100);
-	void draw(Shader& shader) const;
+	void setFunction(std::function<float(float)> func,float startX,float endX,int segments = 100);
+	void draw(Shader& shader, int width, int height) const;
 	std::string getIntersectionsWithX() const;
 
 	Graph(const Graph&) = delete;

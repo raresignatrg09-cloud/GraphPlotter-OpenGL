@@ -58,8 +58,8 @@ int main()
 	Grid grid;
 
 	Graph graph;
-	graph.setFunction([](float x) { return std::sin(x)*x*x; }, -10.0f, 10.0f);
-	graph.setFunction([](float x) { return x * x -4; }, -10.0f, 10.0f);
+	//graph.setFunction([](float x) { return std::sin(x)*x*x; }, -10.0f, 10.0f);
+	graph.setFunction([](float x) { return x * x; }, -10.0f, 10.0f);
 
 	Shader shader(RESOURCES_PATH"shaders/shader.vert", RESOURCES_PATH"shaders/shader.frag");
 
@@ -80,8 +80,8 @@ int main()
         // OpenGL rendering
         shader.use();
 
-        grid.draw(shader);
-        graph.draw(shader);
+        grid.draw(shader, width, height);
+        graph.draw(shader, width, height);
 
         // ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -118,9 +118,7 @@ int main()
         // Render ImGui
         ImGui::Render();
 
-        ImGui_ImplOpenGL3_RenderDrawData(
-            ImGui::GetDrawData()
-        );
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         window.swapBuffers();
         window.pollEvents();

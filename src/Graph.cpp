@@ -26,10 +26,6 @@ Graph::~Graph()
 	glDeleteVertexArrays(1, &VAO);
 }
 
-#include <cmath>
-#include <iostream>
-#include <format>
-
 void Graph::setFunction(std::function<float(float)> func, float startX, float endX, int segments)
 {
     if (!func || segments <= 0)
@@ -82,14 +78,18 @@ void Graph::setFunction(std::function<float(float)> func, float startX, float en
     m_graphs.push_back(graph);
 }
 
-void Graph::draw(Shader & shader) const
+void Graph::draw(Shader& shader, int width, int height) const
 {
 	if (m_graphs.empty())
 		return;
 
 	shader.use();
 
-	glm::mat4 projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
+    float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+
+    float viewHeight = 10.0f;
+    float viewWidth = viewHeight * aspectRatio;
+    glm::mat4 projection = glm::ortho(-viewWidth, viewWidth, -viewHeight, viewHeight);
 
 	shader.setMat4("uMVP", projection);
 
@@ -105,7 +105,10 @@ void Graph::draw(Shader & shader) const
 
 		glDrawArrays(GL_LINE_STRIP, 0, static_cast<int>(graph.vertices.size()));
 	}
+
 	glBindVertexArray(0);
+
+	glLineWidth(2.0f);
 }
 
 std::string Graph::getIntersectionsWithX() const

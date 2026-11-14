@@ -61,15 +61,21 @@ std::vector<Vertex> Grid::generateGrid()
 	return vertices;
 }
 
-void Grid::draw(Shader& shader) const
+void Grid::draw(Shader& shader, int width, int height) const
 {
 	shader.use();
 
-	glm::mat4 projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
+	float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+
+	float viewHeight = 10.0f; 
+	float viewWidth = viewHeight * aspectRatio;
+	glm::mat4 projection = glm::ortho(-viewWidth, viewWidth, -viewHeight, viewHeight);
 
 	shader.setMat4("uMVP", projection);
 
 	glBindVertexArray(gridVAO);
 	glDrawArrays(GL_LINES, 0, gridVertexCount);
 	glBindVertexArray(0);
+
+	glLineWidth(2.0f);
 }

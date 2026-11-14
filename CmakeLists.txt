@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(OpenGL_gridLines LANGUAGES C CXX)
+project(Graph_Plotter LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -49,21 +49,21 @@ file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-add_executable(OpenGL_gridLines ${MY_SOURCES})
+add_executable(Graph_Plotter ${MY_SOURCES})
 
-target_include_directories(OpenGL_gridLines PRIVATE
+target_include_directories(Graph_Plotter PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
-target_include_directories(OpenGL_gridLines PRIVATE
+target_include_directories(Graph_Plotter PRIVATE
 "${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/glad/include"
 )
 
-target_compile_definitions(OpenGL_gridLines PRIVATE
+target_compile_definitions(Graph_Plotter PRIVATE
     RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/"
 )
 
-target_link_libraries(OpenGL_gridLines PRIVATE
+target_link_libraries(Graph_Plotter PRIVATE
     glfw
     glad
     glm
