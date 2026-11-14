@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <sstream>
 
 #include "Shader.h"
 #include "Grid.h"
@@ -21,6 +22,7 @@ public:
 
 	void setFunction(std::function<float(float)> func,float startX,float endX,int segments=100);
 	void draw(Shader& shader) const;
+	std::string getIntersectionsWithX() const;
 
 	Graph(const Graph&) = delete;
 	Graph& operator=(const Graph&) = delete;
@@ -30,4 +32,5 @@ private:
 	int vertexCount;
 
 	std::vector<GraphData> m_graphs;
+	std::stringstream m_intersectionsStream{};
 };

@@ -19,6 +19,31 @@ target_include_directories(glad PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/glad/include"
 )
 
+# Dear ImGui
+set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/imgui)
+
+add_library(imgui STATIC
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+
+    # GLFW backend
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+
+    # OpenGL3 backend
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+
+target_include_directories(imgui PUBLIC
+    ${IMGUI_DIR}
+    ${IMGUI_DIR}/backends
+)
+
+target_link_libraries(imgui PUBLIC
+    glfw
+)
+
 # Application
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
@@ -42,4 +67,5 @@ target_link_libraries(OpenGL_gridLines PRIVATE
     glfw
     glad
     glm
+    imgui
 )
