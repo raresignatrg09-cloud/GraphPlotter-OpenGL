@@ -2,6 +2,7 @@
 #include "headers/Grid.h"
 #include "headers/Window.h"
 #include "headers/Graph.h"
+#include "headers/Parser.hpp"
 
 #include <unordered_map>
 
@@ -58,8 +59,19 @@ int main()
 	Grid grid;
 
 	Graph graph;
-	//graph.setFunction([](float x) { return std::sin(x)*x*x; }, -10.0f, 10.0f);
-	graph.setFunction([](float x) { return x * x; }, -10.0f, 10.0f);
+	
+    char expressionBuffer[256] = "x*x + x - 4";
+    std::string expressionError;
+
+    Expression expression(expressionBuffer);
+
+    graph.setFunction(
+        [expression](float x) {
+            return static_cast<float>(expression.evaluate(x));
+        },
+        -10.0f,
+        10.0f
+    );
 
 	Shader shader(RESOURCES_PATH"shaders/shader.vert", RESOURCES_PATH"shaders/shader.frag");
 
@@ -107,6 +119,47 @@ int main()
 
         ImGui::Text("Grid Lines");
         ImGui::Separator();
+
+        ImGui::Text("Function");
+
+        ImGui::SetNextItemWidth(250.0f);
+        ImGui::InputText("##Expression", expressionBuffer,
+            sizeof(expressionBuffer));
+
+        if (ImGui::Button("Plot"))
+        {
+			graph.clearVertices(); // Clear previous vertices before plotting a new function
+            try
+            {
+                Expression newExpression(expressionBuffer);
+
+                // Compile once, then capture the compiled expression.
+                graph.setFunction(
+                    [newExpression](float x) {
+                        return static_cast<float>(newExpression.evaluate(x));
+                    },
+                    -10.0f,
+                    10.0f
+                );
+
+                expressionError.clear();
+            }
+            catch (const std::exception& e)
+            {
+                expressionError = e.what();
+            }
+        }
+
+        if (!expressionError.empty())
+        {
+            ImGui::TextColored(
+                ImVec4(1.0f, 0.3f, 0.3f, 1.0f),
+                "Error: %s",
+                expressionError.c_str()
+            );
+        }
+
+		ImGui::Separator();
 
 		ImGui::Text("The intersections of the graph with the X-axis are: \n %s", graph.getIntersectionsWithX().c_str());
         ImGui::Separator();

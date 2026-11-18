@@ -23,6 +23,7 @@ public:
 	void setFunction(std::function<float(float)> func,float startX,float endX,int segments = 100);
 	void draw(Shader& shader, int width, int height) const;
 	std::string getIntersectionsWithX() const;
+	void clearVertices() { m_graphs.clear(); m_intersectionsStream.str(""); m_intersectionsStream.clear(); }
 
 	Graph(const Graph&) = delete;
 	Graph& operator=(const Graph&) = delete;

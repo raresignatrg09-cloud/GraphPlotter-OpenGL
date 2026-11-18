@@ -40,8 +40,7 @@ void Graph::setFunction(std::function<float(float)> func, float startX, float en
     // Check if the first point is already a root
     if (std::abs(previousY) < 0.0001f)
     {
-        std::cout << std::format("X-axis intersection: ({}, 0)", previousX) << '\n';
-		m_intersectionsStream << std::format("X-axis intersection: ({}, 0)\n", previousX);
+		m_intersectionsStream << std::format("({}, 0)\n", previousX);
     }
 
     for (int i = 1; i <= segments; i++)
@@ -55,18 +54,15 @@ void Graph::setFunction(std::function<float(float)> func, float startX, float en
             (previousY > 0 && y < 0))
         {
             // Estimate the root using linear interpolation
-            float rootX = previousX -
-                previousY * (x - previousX) / (y - previousY);
+            float rootX = previousX - previousY * (x - previousX) / (y - previousY);
 
-            std::cout << std::format("X-axis intersection: ({}, 0)",rootX) << '\n';
-			m_intersectionsStream << std::format("X-axis intersection: ({}, 0)\n", rootX);
+            m_intersectionsStream << std::format("({}, 0)\n", rootX);
         }
 
         // Check if the current point is approximately zero
         else if (std::abs(y) < 0.0001f)
         {
-            std::cout << std::format("X-axis intersection: ({}, 0)", x) << '\n';
-			m_intersectionsStream << std::format("X-axis intersection: ({}, 0)\n", x);
+			m_intersectionsStream << std::format("({}, 0)\n", x);
         }
 
         graph.vertices.push_back({ x, y, 1.0f, 0.0f, 0.0f });

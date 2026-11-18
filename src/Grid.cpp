@@ -1,6 +1,6 @@
 #include "headers/Grid.h"
 
-Grid::Grid()
+Grid::Grid() 
 {
 	std::vector<Vertex> vertices = generateGrid();
 
@@ -50,7 +50,7 @@ std::vector<Vertex> Grid::generateGrid()
 		{
 			hr = 1.0f;
 			hg = 0.0f;
-			hg = 0.0f;
+			hb = 0.0f;
 		}
 
 		//Horizontal lines
