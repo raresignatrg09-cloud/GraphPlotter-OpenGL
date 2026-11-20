@@ -11,9 +11,9 @@
 #include "imgui_impl_opengl3.h"
 
 // Define the initial dimensions and title of the application window.
-constexpr int WIDTH = 800;
+constexpr int WIDTH  = 800;
 constexpr int HEIGHT = 800;
-const char* TITLE = "Grid Lines";
+const char* TITLE    = "Graph Plotter";
 
 // Store the background colors used by the application's light and dark themes.
 glm::vec4 LightModeColor = { 255, 255, 255, 255 };
