@@ -6,7 +6,7 @@ The project combines mathematical expression parsing, numerical evaluation, and 
 
 ## Preview
 
-![Function Plotter Screenshot](docs/images/screenshot.png)
+![GraphPlotter-OpenGL](resources/images/screenshot.png)
 
 *Screenshot of the application displaying a plotted mathematical function.*
 
@@ -200,7 +200,7 @@ Some possible additions and improvements include:
 
 ## License
 
-This project is open source. Add a license of your choice before distributing it.
+This project is open source.
 
 ---
 
