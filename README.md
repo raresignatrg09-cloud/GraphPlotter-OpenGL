@@ -169,7 +169,7 @@ git clone https://github.com/raresignatrg09-cloud/GraphPlotter-OpenGL.git
 Navigate to the project directory:
 
 ```bash
-cd YOUR_REPOSITORY
+cd GraphPlotter-OpenGL
 ```
 
 ### Using CMake
