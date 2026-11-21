@@ -163,7 +163,7 @@ Before building the project, make sure you have:
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/raresignatrg09-cloud/GraphPlotter-OpenGL.git
 ```
 
 Navigate to the project directory:
